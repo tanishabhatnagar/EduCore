@@ -1,1 +1,1 @@
- Real time edtech platform
+REAL TIME ED TECH PLATFORM

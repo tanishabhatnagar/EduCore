@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Signup() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 p-10 bg-gray-800 rounded-xl shadow-lg relative">
+      <div className="max-w-md w-full space-y-8 p-10 bg-gray-900 rounded-xl shadow-lg relative">
         <div className="flex justify-center mb-6 relative h-24">
           <div className="book">
             <img src="https://cdn-icons-png.flaticon.com/128/3771/3771417.png" alt="Book Icon" className="h-16 w-16" />

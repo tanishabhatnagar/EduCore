@@ -22,9 +22,9 @@ export function DefaultSidebar() {
 
   return (
     <Card
-      className={`   w-full  h-screen ${
+      className={`h-screen w-full ${
         isHovered ? 'max-w-[20rem]' : 'max-w-[5rem]'
-      } p-4 shadow-xl bg-gray-800 shadow-black/40 transition-all duration-300 ease-in-out`}
+      } p-4 bg-gray-900 shadow-xl shadow-black/40 transition-all duration-300 ease-in-out border-none`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -34,19 +34,19 @@ export function DefaultSidebar() {
         </Typography>
       </div>
       <List className="flex flex-col space-y-2 text-white">
-        <ListItem className="flex items-center hover:bg-gray-700 p-2 rounded-md transition duration-300 ease-in-out">
+        <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
           <ListItemPrefix>
             <PresentationChartBarIcon className="h-6 w-6 text-gray-200" />
           </ListItemPrefix>
           {isHovered && <Typography className="ml-2 text-white">Dashboard</Typography>}
         </ListItem>
-        <ListItem className="flex items-center hover:bg-gray-700 p-2 rounded-md transition duration-300 ease-in-out">
+        <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
           <ListItemPrefix>
             <ShoppingBagIcon className="h-6 w-6 text-gray-200" />
           </ListItemPrefix>
-          {isHovered && <Typography className="ml-2 text-white">E-Commerce</Typography>}
+          {isHovered && <Typography className="ml-2 text-white">Student</Typography>}
         </ListItem>
-        <ListItem className="flex items-center hover:bg-gray-700 p-2 rounded-md transition duration-300 ease-in-out">
+        <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
           <ListItemPrefix>
             <InboxIcon className="h-6 w-6 text-gray-200" />
           </ListItemPrefix>
@@ -65,19 +65,19 @@ export function DefaultSidebar() {
             </>
           )}
         </ListItem>
-        <ListItem className="flex items-center hover:bg-gray-700 p-2 rounded-md transition duration-300 ease-in-out">
+        <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
           <ListItemPrefix>
             <UserCircleIcon className="h-6 w-6 text-gray-200" />
           </ListItemPrefix>
           {isHovered && <Typography className="ml-2 text-white">Profile</Typography>}
         </ListItem>
-        <ListItem className="flex items-center hover:bg-gray-700 p-2 rounded-md transition duration-300 ease-in-out">
+        <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
           <ListItemPrefix>
             <Cog6ToothIcon className="h-6 w-6 text-gray-200" />
           </ListItemPrefix>
           {isHovered && <Typography className="ml-2 text-white">Settings</Typography>}
         </ListItem>
-        <ListItem className="flex items-center hover:bg-gray-700 p-2 rounded-md transition duration-300 ease-in-out">
+        <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
           <ListItemPrefix>
             <PowerIcon className="h-6 w-6 text-gray-200" />
           </ListItemPrefix>

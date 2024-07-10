@@ -48,7 +48,7 @@ export function CardDefault() {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 350,
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
@@ -70,7 +70,7 @@ export function CardDefault() {
   };
 
   return (
-    <div className="w-full p-6 bg-black mt-10">
+    <div className="w-full p-6 bg-black mt-44 mb-44">
       <div className="block md:hidden">
         {cardsData.map((card, index) => (
           <div key={index} className="mb-6">
@@ -100,8 +100,8 @@ export function CardDefault() {
       <div className="hidden md:block">
         <Slider {...settings}>
           {cardsData.map((card, index) => (
-            <div key={index} className="px-2">
-              <Card className="w-86 bg-gray-800 text-white">
+            <div key={index} className="px-8">
+              <Card className="w-85 h-70 bg-gray-800 text-white">
                 <CardHeader color="blue-gray" className="relative h-56">
                   <img
                     src={card.imgSrc}

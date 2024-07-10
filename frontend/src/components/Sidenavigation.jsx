@@ -22,9 +22,9 @@ export function DefaultSidebar() {
 
   return (
     <Card
-      className={`h-screen w-full ${
-        isHovered ? 'max-w-[20rem]' : 'max-w-[5rem]'
-      } p-4 bg-gray-900 shadow-xl shadow-black/40 transition-all duration-300 ease-in-out border-none`}
+      className={`fixed top-0 left-0 h-screen ${
+        isHovered ? 'w-[20rem]' : 'w-[5rem]'
+      } bg-gray-900 shadow-xl shadow-black/40 transition-all duration-300 ease-in-out border-none z-20`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

@@ -7,6 +7,9 @@ import CTAButton from "./core/HomePage/Button";
 import HighlightText from './core/HomePage/HighlightText';
 import { fadeIn } from './common/motionFrameVarients';
 import Footer from './footer';
+import InstructorSection from './Instructor';
+import TimelineSection from './TimelineSection';
+import LearningLanguageSection from './LearningLanguagesSection';
 
 // background random images
 import backgroundImg1 from '../assets/Images/random bg img/coding bg1.jpg';
@@ -21,6 +24,7 @@ import backgroundImg9 from '../assets/Images/random bg img/coding bg9.jpg';
 import backgroundImg10 from '../assets/Images/random bg img/coding bg10.jpg';
 import backgroundImg11 from '../assets/Images/random bg img/coding bg11.jpg';
 import CardDefault from './cards';
+
 
 const randomImages = [
   backgroundImg1,
@@ -47,7 +51,7 @@ function Home() {
   return (
     <div className="flex h-screen">
       <DefaultSidebar />
-      <div className="flex-1 relative text-white p-6 bg-black overflow-auto">
+      <div className="flex-1 relative text-white p-6 bg-black overflow-auto ml-[5rem]">
         {backgroundImg && (
           <div className="absolute inset-0 opacity-30">
             <img
@@ -58,7 +62,7 @@ function Home() {
           </div>
         )}
         <div className="relative z-10">
-          <div className='relative h-[450px] md:h-[550px] justify-center mx-auto flex flex-col w-11/12 max-w-maxContent items-center text-white '>
+          <div className='relative h-[450px] md:h-[550px] justify-center mx-auto flex flex-col w-11/12 max-w-maxContent items-center text-white'>
             <Link to={"/signup"}>
               <div className='z-0 group p-1 mx-auto rounded-full bg-richblack-800 font-bold text-richblack-200 transition-all duration-200 hover:scale-95 w-fit'>
                 <div className='flex flex-row items-center gap-2 rounded-full px-10 py-[5px] transition-all duration-200 group-hover:bg-richblack-900'>
@@ -68,25 +72,26 @@ function Home() {
             </Link>
 
             <motion.div
-              variants={fadeIn('left', 0.1)}
-              initial='hidden'
-              whileInView={'show'}
-              viewport={{ once: false, amount: 0.1 }}
-              className='text-center text-3xl lg:text-4xl font-semibold mt-7'
-            >
-              Master Your Core Subjects with
-              <HighlightText text={"Our Courses"} />
-            </motion.div>
+  variants={fadeIn('left', 0.1)}
+  initial='hidden'
+  whileInView={'show'}
+  viewport={{ once: false, amount: 0.1 }}
+  className='text-center text-3xl lg:text-4xl font-semibold mt-7'
+>
+  Excel in Your Engineering Interviews with
+  <HighlightText text={"Our Courses"} />
+</motion.div>
 
-            <motion.div
-             variants={fadeIn('right', 0.1)}
-              initial='hidden'
-              whileInView={'show'}
-              viewport={{ once: false, amount: 0.1 }}
-              className='mt-4 w-[90%] text-center text-base lg:text-lg font-bold text-gray-400'
-            >
-              Prepare comprehensively with our expert-led courses in DBMS, OOPS, Computer Networks, and Operating Systems. Learn at your own pace, anywhere, anytime, with hands-on projects, quizzes, and personalized guidance from top industry professionals.
-            </motion.div>
+<motion.div
+  variants={fadeIn('right', 0.1)}
+  initial='hidden'
+  whileInView={'show'}
+  viewport={{ once: false, amount: 0.1 }}
+  className='mt-4 w-[90%] text-center text-base lg:text-lg font-bold text-gray-400'
+>
+  Prepare thoroughly for your engineering interviews with our expert-led courses in DBMS, OOP, Computer Networks, Operating Systems, and System Design. Learn at your own pace, anywhere, anytime, with hands-on projects, quizzes, and personalized guidance from top industry professionals.
+</motion.div>
+
 
             <div className='flex flex-row gap-7 mt-8 mb-12 md:mb-0'>
               <CTAButton active={true} linkto={"/signup"}>
@@ -99,6 +104,33 @@ function Home() {
           </div>
           {/* Place the CardDefault component here */}
           <CardDefault />
+          <div className='mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7'>
+                        <div className='flex flex-col lg:flex-row gap-5 mb-10 mt-[95px]'>
+                            <div className='text-3xl lg:text-4xl font-semibold w-full lg:w-[45%]'>
+                                Get the Skills you need for a
+                                <HighlightText text={"Job that is in demand"} />
+                            </div>
+
+                            <div className='flex flex-col gap-10 w-full lg:w-[40%] items-start'>
+                                <div className='text-[16px]'>
+                                    The modern EduCore is the dictates its own terms. Today, to be a competitive specialist requires more than professional skills.
+                                </div>
+                                <CTAButton active={true} linkto={"/signup"}>
+                                    <div>
+                                        Learn more
+                                    </div>
+                                </CTAButton>
+                            </div>
+                        </div>
+
+
+                        {/* leadership */}
+                        <TimelineSection />
+
+                        <LearningLanguageSection />
+
+                    </div>
+          <InstructorSection />
           <Footer />
         </div>
       </div>

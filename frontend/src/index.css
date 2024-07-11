@@ -84,3 +84,7 @@
       transform:scale(.8);
   }
 }
+
+body {
+  @apply bg-black;
+}

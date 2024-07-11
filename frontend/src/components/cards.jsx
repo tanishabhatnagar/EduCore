@@ -44,7 +44,7 @@ const cardsData = [
   },
 ];
 
-export function CardDefault() {
+export function CardDefault({ darkMode }) {
   const settings = {
     dots: true,
     infinite: true,
@@ -61,7 +61,13 @@ export function CardDefault() {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 640,
         settings: {
           slidesToShow: 1,
         },
@@ -70,11 +76,11 @@ export function CardDefault() {
   };
 
   return (
-    <div className="w-full p-6 bg-black mt-44 mb-44">
+    <div className={`w-full p-6 mt-10 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
       <div className="block md:hidden">
         {cardsData.map((card, index) => (
           <div key={index} className="mb-6">
-            <Card className="w-full bg-gray-800 text-white">
+            <Card className={`w-full ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
               <CardHeader color="blue-gray" className="relative h-56">
                 <img
                   src={card.imgSrc}
@@ -83,10 +89,10 @@ export function CardDefault() {
                 />
               </CardHeader>
               <CardBody>
-                <Typography variant="h5" color="white" className="mb-2">
+                <Typography variant="h5" className="mb-2">
                   {card.title}
                 </Typography>
-                <Typography className="text-gray-300">
+                <Typography className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
                   {card.description}
                 </Typography>
               </CardBody>
@@ -100,8 +106,8 @@ export function CardDefault() {
       <div className="hidden md:block">
         <Slider {...settings}>
           {cardsData.map((card, index) => (
-            <div key={index} className="px-8">
-              <Card className="w-85 h-70 bg-gray-800 text-white">
+            <div key={index} className="px-4">
+              <Card className={`w-full h-96 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
                 <CardHeader color="blue-gray" className="relative h-56">
                   <img
                     src={card.imgSrc}
@@ -110,10 +116,10 @@ export function CardDefault() {
                   />
                 </CardHeader>
                 <CardBody>
-                  <Typography variant="h5" color="white" className="mb-2">
+                  <Typography variant="h5" className="mb-2">
                     {card.title}
                   </Typography>
-                  <Typography className="text-gray-300">
+                  <Typography className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
                     {card.description}
                   </Typography>
                 </CardBody>

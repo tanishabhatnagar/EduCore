@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password ,role} = req.body;
     const emailCheck = await User.findOne({ email });
 
     if (emailCheck) {
@@ -15,6 +15,7 @@ const register = async (req, res) => {
       email,
       name,
       password: hashedPassword,
+      role,
     });
 
     return res.status(201).json({
@@ -31,16 +32,20 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password,role } = req.body;
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid email " });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ message: "Invalid email or password" });
+    }
+    if(!user.role==role)
+    {
+      return res.status(400).json({messaage:"Invalid role"});
     }
 
     return res.status(200).json({

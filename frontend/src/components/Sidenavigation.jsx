@@ -12,9 +12,16 @@ import {
   ShoppingBagIcon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook for navigation
 
 export function DefaultSidebar({ darkMode }) {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate(); // Hook for navigation
+
+  const handleLogout = () => {
+    localStorage.clear(); // Clear all items in localStorage
+    navigate('/login'); // Navigate to the login page
+  };
 
   return (
     <div>
@@ -76,9 +83,9 @@ export function DefaultSidebar({ darkMode }) {
               <ShoppingBagIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
             {isHovered && (
-              <Link to="/signup" className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>
+              <button onClick={handleLogout} className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>
                 Logout
-              </Link>
+              </button>
             )}
           </ListItem>
         </List>
@@ -121,9 +128,9 @@ export function DefaultSidebar({ darkMode }) {
             <ListItemPrefix>
               <ShoppingBagIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
-            <Link to="/signup" className={`mt-1 ${darkMode ? 'text-white' : 'text-black'}`}>
-              LogOut
-            </Link>
+            <button onClick={handleLogout} className={`mt-1 ${darkMode ? 'text-white' : 'text-black'}`}>
+              Logout
+            </button>
           </ListItem>
         </List>
       </Card>

@@ -1,18 +1,58 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import loginImage from '../assets/Images/login.png'; // Import your image
+import loginImage from '../assets/Images/login.png';
+import { loginRoute } from '../utils/APIRoutes';
+import axios from 'axios'; // Import axios for making HTTP requests
+import { Toaster,toast } from 'react-hot-toast';
 
-function Login() {
+const Login = () => {
+  const [values, setValues] = useState({
+    email: '',
+    password: '',
+    role: 'student', // Initialize role state with a default value
+  });
+
   const navigate = useNavigate();
-  const [role, setRole] = useState('student');
 
-  const handleSubmit = (e) => {
+  const handleValidation = () => {
+    const { email, password, role } = values;
+    if (!email || !password || !role) {
+      // Check if email, password, and role are filled
+      toast.error('All fields are required');
+      return false;
+    }
+    return true;
+  };
+
+  const handleChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform your login logic here, then navigate to the homepage
-    navigate('/');
+    if (handleValidation()) {
+      const { email, password, role } = values;
+      try {
+        const { data } = await axios.post(loginRoute, {
+          email,
+          password,
+          role,
+        });
+        if (data.status === false) {
+          toast.error(data.message);
+        } else if (data.status === true) {
+          localStorage.setItem('My User', JSON.stringify(data.user));
+          navigate('/');
+        }
+      } catch (error) {
+        console.error('Error logging in user:', error);
+        toast.error('Error logging in user');
+      }
+    }
   };
 
   return (
+    <>
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4 sm:px-6 lg:px-8">
       <div className="flex flex-wrap items-center justify-center w-full max-w-4xl rounded-xl shadow-lg overflow-hidden">
         <div className="w-full md:w-1/2 p-8 space-y-8 md:space-y-0 md:space-x-8 flex flex-col">
@@ -35,6 +75,7 @@ function Login() {
                   type="email"
                   autoComplete="email"
                   required
+                  onChange={handleChange}
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-gray-700"
                   placeholder="Email address"
                 />
@@ -46,7 +87,7 @@ function Login() {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  required
+                  onChange={handleChange}
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-gray-700"
                   placeholder="Password"
                 />
@@ -58,8 +99,8 @@ function Login() {
                     name="role"
                     type="radio"
                     value="student"
-                    checked={role === 'student'}
-                    onChange={() => setRole('student')}
+                    checked={values.role === 'student'}
+                    onChange={handleChange}
                     className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
                   />
                   <label htmlFor="student" className="ml-2 block text-sm text-gray-400">
@@ -72,8 +113,8 @@ function Login() {
                     name="role"
                     type="radio"
                     value="instructor"
-                    checked={role === 'instructor'}
-                    onChange={() => setRole('instructor')}
+                    checked={values.role === 'instructor'}
+                    onChange={handleChange}
                     className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
                   />
                   <label htmlFor="instructor" className="ml-2 block text-sm text-gray-400">
@@ -97,6 +138,8 @@ function Login() {
         </div>
       </div>
     </div>
+    <Toaster/>
+   </>
   );
 }
 

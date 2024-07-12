@@ -10,6 +10,7 @@ import InstructorSection from './Instructor';
 import TimelineSection from './TimelineSection';
 import LearningLanguageSection from './LearningLanguagesSection';
 import CardDefault from './cards';
+import { FaSun, FaMoon } from 'react-icons/fa'; // Import icons
 
 // background random images
 import backgroundImg1 from '../assets/Images/random bg img/coding bg1.jpg';
@@ -49,10 +50,10 @@ function Home() {
 
   return (
     <div className={`flex h-screen ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
-      <DefaultSidebar />
+      <DefaultSidebar darkMode={darkMode} />
       <div className={`flex-1 relative p-6 overflow-auto lg:ml-[5rem] ml-0 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
         {backgroundImg && (
-          <div className="absolute inset-0 opacity-30">
+          <div className={`absolute inset-0 ${darkMode ? 'opacity-30' : 'opacity-70'}`}>
             <img
               src={backgroundImg}
               alt="Background"
@@ -62,13 +63,18 @@ function Home() {
         )}
         <div className="relative z-10 mt-44 sm:mt-0">
           <div className='relative h-[450px] md:h-[550px] justify-center mx-auto flex flex-col w-11/12 max-w-maxContent items-center'>
-            <div className="flex justify-end w-full mb-4 mt-[-6rem]">
+            <div className="flex justify-end w-full mb-4 mt-[-6rem] space-x-4">
               <button
                 onClick={() => setDarkMode(!darkMode)}
                 className="bg-gray-800 text-white px-4 py-2 rounded"
               >
-                Toggle Dark Mode
+                {darkMode ? <FaSun /> : <FaMoon />}
               </button>
+              <Link to="/signup">
+                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                  Signup
+                </button>
+              </Link>
             </div>
             <Link to={"/signup"}>
               <div className='z-0 group p-1 mx-auto rounded-full bg-richblack-800 font-bold text-richblack-200 transition-all duration-200 hover:scale-95 w-fit'>
@@ -94,7 +100,7 @@ function Home() {
               initial='hidden'
               whileInView={'show'}
               viewport={{ once: false, amount: 0.1 }}
-              className='mt-4 w-[90%] text-center text-base lg:text-lg font-bold text-gray-600'
+              className={`mt-4 w-[90%] text-center text-base lg:text-lg font-bold ${darkMode ? 'text-gray-500' : 'text-gray-700'}`}
             >
               Prepare thoroughly for your engineering interviews with our expert-led courses in DBMS, OOP, Computer Networks, Operating Systems, and System Design. Learn at your own pace, anywhere, anytime, with hands-on projects, quizzes, and personalized guidance from top industry professionals.
             </motion.div>
@@ -133,7 +139,7 @@ function Home() {
             <LearningLanguageSection />
           </div>
           <InstructorSection darkMode={darkMode} />
-          <Footer />
+          <Footer darkMode={darkMode} />
         </div>
       </div>
     </div>

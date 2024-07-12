@@ -6,6 +6,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { DefaultSidebar } from './Sidenavigation'; 
 import studentImage from '../assets/Images/student.avif'; // Import the student image
+import { FaSun, FaMoon } from 'react-icons/fa'; // Import icons
 
 const StudentPage = ({ studentName = 'Student Name' }) => {
   const [darkMode, setDarkMode] = useState(true);
@@ -18,21 +19,21 @@ const StudentPage = ({ studentName = 'Student Name' }) => {
       title: 'Course 1',
       description: 'Description for Course 1',
       price: 4999,
-      image: 'https://plus.unsplash.com/premium_photo-1664372145591-f7cc308ff5da?q=80&w=1896&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Placeholder image URL
+      image: 'https://plus.unsplash.com/premium_photo-1664372145591-f7cc308ff5da?q=80&w=1896&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MHx8Y291cnNlfGVufDB8fDB8fHw%3D', // Placeholder image URL
     },
     {
       id: '2',
       title: 'Course 2',
       description: 'Description for Course 2',
       price: 2999,
-      image: 'https://images.unsplash.com/photo-1471107191679-f26174d2d41e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3R1ZHl8ZW58MHx8MHx8fDA%3D', // Placeholder image URL
+      image: 'https://images.unsplash.com/photo-1471107191679-f26174d2d41e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y291cnNlfGVufDB8fDB8fHw%3D', // Placeholder image URL
     },
     {
       id: '3',
       title: 'Course 3',
       description: 'Description for Course 3',
       price: 3999,
-      image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c3R1ZHl8ZW58MHx8MHx8fDA%3D', // Placeholder image URL
+      image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y291cnNlfGVufDB8fDB8fHw%3D', // Placeholder image URL
     },
   ];
 
@@ -52,7 +53,7 @@ const StudentPage = ({ studentName = 'Student Name' }) => {
 
   return (
     <div className={`flex h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
-      <DefaultSidebar />
+      <DefaultSidebar darkMode={darkMode} />
       <div className={`flex-1 p-4 overflow-auto lg:ml-[5rem] ml-0 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
@@ -67,7 +68,7 @@ const StudentPage = ({ studentName = 'Student Name' }) => {
             onClick={() => setDarkMode(!darkMode)}
             className="bg-gray-800 text-white px-4 py-2 rounded"
           >
-            Toggle Dark Mode
+            {darkMode ? <FaSun /> : <FaMoon />}
           </button>
         </div>
         <h2 className="text-2xl font-bold mb-4">Available Courses</h2>

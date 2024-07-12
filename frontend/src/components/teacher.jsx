@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { PlusIcon, BookOpenIcon, XMarkIcon, TrashIcon } from '@heroicons/react/24/solid'; // Correct import for close icon
+import { PlusIcon, BookOpenIcon, XMarkIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { FaSun, FaMoon } from 'react-icons/fa'; // Import icons for light/dark mode toggle
 import { DefaultSidebar } from './Sidenavigation'; 
 import teacherImage from '../assets/Images/teacher.png'; // Import the teacher image
 
@@ -39,7 +40,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
 
   return (
     <div className={`flex h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
-      <DefaultSidebar />
+      <DefaultSidebar darkMode={darkMode} />
       <div className={`flex-1 p-4 overflow-auto lg:ml-[5rem] ml-0 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
@@ -54,7 +55,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
             onClick={() => setDarkMode(!darkMode)}
             className="bg-gray-800 text-white px-4 py-2 rounded"
           >
-            Toggle Dark Mode
+            {darkMode ? <FaSun /> : <FaMoon />}
           </button>
         </div>
         <div className="flex justify-between items-center mb-4">

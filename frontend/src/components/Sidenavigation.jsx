@@ -6,19 +6,14 @@ import {
   List,
   ListItem,
   ListItemPrefix,
-  ListItemSuffix,
-  Chip,
 } from '@material-tailwind/react';
 import {
   PresentationChartBarIcon,
   ShoppingBagIcon,
-  UserCircleIcon,
   Cog6ToothIcon,
-  InboxIcon,
-  PowerIcon,
 } from '@heroicons/react/24/solid';
 
-export function DefaultSidebar() {
+export function DefaultSidebar({ darkMode }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -26,58 +21,62 @@ export function DefaultSidebar() {
       <Card
         className={`fixed top-0 left-0 h-screen ${
           isHovered ? 'w-[20rem]' : 'w-[5rem]'
-        } bg-gray-950 shadow-xl shadow-black/40 transition-all duration-300 ease-in-out border-none z-20 lg:block hidden`}
+        } ${darkMode ? 'bg-gray-950' : 'bg-gray-100'} shadow-xl transition-all duration-300 ease-in-out border-none z-20 lg:block hidden`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className={`mb-2 p-4 border-b border-gray-700 ${!isHovered && 'hidden'}`}>
-          <Typography variant="h5" color="white" className="font-semibold">
+        <div className={`mb-2 p-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} ${!isHovered && 'hidden'}`}>
+          <Typography variant="h5" className={`${darkMode ? 'text-white' : 'text-black'} font-semibold`}>
             Sidebar
           </Typography>
         </div>
-        <List className="flex flex-col space-y-2 text-white">
-          <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
+        <List className="flex flex-col space-y-2">
+          <ListItem className={`flex items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
             <ListItemPrefix>
-              <PresentationChartBarIcon className="h-6 w-6 text-gray-200" />
+              <PresentationChartBarIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
             {isHovered && (
-              <Link to="/home" className="ml-2 text-white">
+              <Link to="/" className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>
                 Dashboard
               </Link>
             )}
           </ListItem>
-          <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
+          <ListItem className={`flex items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
             <ListItemPrefix>
-              <ShoppingBagIcon className="h-6 w-6 text-gray-200" />
+              <ShoppingBagIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
             {isHovered && (
-              <Link to="/student" className="ml-2 text-white">
+              <Link to="/student" className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>
                 Student
               </Link>
             )}
           </ListItem>
-          <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
+          <ListItem className={`flex items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
             <ListItemPrefix>
-              <ShoppingBagIcon className="h-6 w-6 text-gray-200" />
+              <ShoppingBagIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
             {isHovered && (
-              <Link to="/instructor" className="ml-2 text-white">
+              <Link to="/instructor" className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>
                 Instructor
               </Link>
             )}
           </ListItem>
-          <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
+          <ListItem className={`flex items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
             <ListItemPrefix>
-              <Cog6ToothIcon className="h-6 w-6 text-gray-200" />
-            </ListItemPrefix>
-            {isHovered && <Typography className="ml-2 text-white">Settings</Typography>}
-          </ListItem>
-          <ListItem className="flex items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
-            <ListItemPrefix>
-              <ShoppingBagIcon className="h-6 w-6 text-gray-200" />
+              <ShoppingBagIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
             {isHovered && (
-              <Link to="/signup" className="ml-2 text-white">
+              <Link to="/course" className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>
+                Courses
+              </Link>
+            )}
+          </ListItem>
+          <ListItem className={`flex items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
+            <ListItemPrefix>
+              <ShoppingBagIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
+            </ListItemPrefix>
+            {isHovered && (
+              <Link to="/signup" className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>
                 Logout
               </Link>
             )}
@@ -86,43 +85,43 @@ export function DefaultSidebar() {
       </Card>
 
       {/* Horizontal navigation for mobile screens */}
-      <Card className="fixed bottom-0 left-0 right-0 h-[5rem] bg-gray-900 shadow-xl shadow-black/40 border-none z-20 lg:hidden block">
-        <List className="flex flex-row justify-around text-white">
-          <ListItem className="flex flex-col items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
+      <Card className={`fixed bottom-0 left-0 right-0 h-[5rem] ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} shadow-xl border-none z-20 lg:hidden block`}>
+        <List className="flex flex-row justify-around">
+          <ListItem className={`flex flex-col items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
             <ListItemPrefix>
-              <PresentationChartBarIcon className="h-6 w-6 text-gray-200" />
+              <PresentationChartBarIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
-            <Link to="/home" className="mt-1 text-white">
+            <Link to="/" className={`mt-1 ${darkMode ? 'text-white' : 'text-black'}`}>
               Dashboard
             </Link>
           </ListItem>
-          <ListItem className="flex flex-col items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
+          <ListItem className={`flex flex-col items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
             <ListItemPrefix>
-              <ShoppingBagIcon className="h-6 w-6 text-gray-200" />
+              <ShoppingBagIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
-            <Link to="/student" className="mt-1 text-white">
+            <Link to="/student" className={`mt-1 ${darkMode ? 'text-white' : 'text-black'}`}>
               Student
             </Link>
           </ListItem>
-          <ListItem className="flex flex-col items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
+          <ListItem className={`flex flex-col items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
             <ListItemPrefix>
-              <ShoppingBagIcon className="h-6 w-6 text-gray-200" />
+              <ShoppingBagIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
-            <Link to="/instructor" className="mt-1 text-white">
+            <Link to="/instructor" className={`mt-1 ${darkMode ? 'text-white' : 'text-black'}`}>
               Instructor
             </Link>
           </ListItem>
-          <ListItem className="flex flex-col items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
+          <ListItem className={`flex flex-col items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
             <ListItemPrefix>
-              <Cog6ToothIcon className="h-6 w-6 text-gray-200" />
+              <Cog6ToothIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
-            <Typography className="mt-1 text-white">Settings</Typography>
+            <Typography className={`mt-1 ${darkMode ? 'text-white' : 'text-black'}`}>Courses</Typography>
           </ListItem>
-          <ListItem className="flex flex-col items-center hover:bg-gray-700 p-2 transition duration-300 ease-in-out">
+          <ListItem className={`flex flex-col items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
             <ListItemPrefix>
-              <ShoppingBagIcon className="h-6 w-6 text-gray-200" />
+              <ShoppingBagIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
-            <Link to="/signup" className="mt-1 text-white">
+            <Link to="/signup" className={`mt-1 ${darkMode ? 'text-white' : 'text-black'}`}>
               LogOut
             </Link>
           </ListItem>

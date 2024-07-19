@@ -8,12 +8,16 @@ import StudentPage from './components/Student';
 import PaymentPage from './components/Payment';
 import TeacherPage from './components/teacher';
 import CoursePage from './components/Courses';
+<<<<<<< HEAD
 
 
+=======
+import { AuthProvider } from './components/useAuth';
+>>>>>>> ba1aeea1da4cd0a15620dec7b11696bc8c9f04e2
 function App() {
   return (
     <>
-    
+    <AuthProvider>
     <Router>
       <Routes>
         <Route path="/signup" element={<Signup />} />
@@ -26,6 +30,7 @@ function App() {
         
       </Routes>
     </Router>
+    </AuthProvider>
     </>
     
   );

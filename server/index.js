@@ -11,9 +11,11 @@ const app=express();
 app.use(express.json());
 app.use(cors());
 
+const userRoutes=require('./routes/userRoutes');
+const courseRoutes=require('./routes/courseRoutes');
 
-
-app.use('/auth', router);
+app.use('/auth', userRoutes);
+app.use('/auth',courseRoutes)
 
 
 mongoose.connect(process.env.MONGOURL)

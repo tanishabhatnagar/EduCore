@@ -122,7 +122,7 @@ export function DefaultSidebar({ darkMode }) {
             <ListItemPrefix>
               <Cog6ToothIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
             </ListItemPrefix>
-            <Typography className={`mt-1 ${darkMode ? 'text-white' : 'text-black'}`}>Courses</Typography>
+            <Typography className={`mt-1 ${darkMode ? 'text-white' : 'text-black'}`}>COurses</Typography>
           </ListItem>
           <ListItem className={`flex flex-col items-center ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 transition duration-300 ease-in-out`}>
             <ListItemPrefix>

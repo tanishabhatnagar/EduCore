@@ -8,11 +8,11 @@ import StudentPage from './components/Student';
 import PaymentPage from './components/Payment';
 import TeacherPage from './components/teacher';
 import CoursePage from './components/Courses';
-
+import { AuthProvider } from './components/useAuth';
 function App() {
   return (
     <>
-    
+    <AuthProvider>
     <Router>
       <Routes>
         <Route path="/signup" element={<Signup />} />
@@ -25,6 +25,7 @@ function App() {
         
       </Routes>
     </Router>
+    </AuthProvider>
     </>
     
   );

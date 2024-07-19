@@ -9,6 +9,7 @@ import PaymentPage from './components/Payment';
 import TeacherPage from './components/teacher';
 import CoursePage from './components/Courses';
 
+
 function App() {
   return (
     <>

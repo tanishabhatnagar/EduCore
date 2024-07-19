@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import signupImage from '../assets/Images/signup.png'; 
-import {Toaster,toast} from "react-hot-toast";
+import { Toaster, toast } from 'react-hot-toast';
 import { registerRoute } from '../utils/APIRoutes';
 
 function Signup() {
@@ -21,7 +21,6 @@ function Signup() {
       toast.error('All fields are required');
       return false;
     }
-    
     return true;
   };
 
@@ -43,11 +42,11 @@ function Signup() {
         if (data.status === false) {
           toast.error(data.message);
         } else if (data.status === true) {
-          localStorage.setItem('My User', JSON.stringify(data.user));
-          navigate('/');
+          localStorage.setItem('MyUser', JSON.stringify(data.user));
+          localStorage.setItem('UserRole', role); // Store the role in local storage
+          navigate('/'); // Navigate to the dashboard
         }
       } catch (error) {
-        console.log(values)
         toast.error('Error registering user');
       }
     }
@@ -76,7 +75,6 @@ function Signup() {
                     name="name"
                     type="text"
                     autoComplete="name"
-                    
                     className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-gray-700"
                     placeholder="Name"
                     onChange={handleChange}
@@ -89,7 +87,6 @@ function Signup() {
                     name="email"
                     type="email"
                     autoComplete="email"
-                   
                     className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-gray-700"
                     placeholder="Email address"
                     onChange={handleChange}
@@ -102,7 +99,6 @@ function Signup() {
                     name="password"
                     type="password"
                     autoComplete="current-password"
-                    
                     className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-gray-700"
                     placeholder="Password"
                     onChange={handleChange}
@@ -114,7 +110,7 @@ function Signup() {
                       id="student"
                       name="role"
                       type="radio"
-                      value='student'
+                      value="student"
                       checked={values.role === 'student'}
                       onChange={handleChange}
                       className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"
@@ -128,7 +124,7 @@ function Signup() {
                       id="instructor"
                       name="role"
                       type="radio"
-                      value='instructor'
+                      value="instructor"
                       checked={values.role === 'instructor'}
                       onChange={handleChange}
                       className="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300"

@@ -107,7 +107,7 @@ export function CardDefault({ darkMode }) {
         <Slider {...settings}>
           {cardsData.map((card, index) => (
             <div key={index} className="px-4 w-full">
-              <Card className={`w-10/12 h-96 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+              <Card className={`w-10/12 h-96 ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'}`}>
                 <CardHeader color="blue-gray" className="relative h-56">
                   <img
                     src={card.imgSrc}

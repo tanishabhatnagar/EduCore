@@ -23,11 +23,25 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
   ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Array of image URLs
+  const imageOptions = [
+    'https://tse2.mm.bing.net/th?id=OIP.MU5piosKJNo7b4haTcq90gHaFj&pid=Api&P=0&h=180',
+    'https://tse4.mm.bing.net/th?id=OIP.EPraBsb2WCzsLy3OvIqVXwHaE9&pid=Api&P=0&h=180',
+    'https://tse4.mm.bing.net/th?id=OIP.bhmRCm-pRan1kxvTEM-DkQHaEK&pid=Api&P=0&h=180',
+    'https://tse2.mm.bing.net/th?id=OIP.KXGNKFlkiV2tMRgx6CeerQHaE8&pid=Api&P=0&h=180',
+    'https://tse2.mm.bing.net/th?id=OIP.gtVaQrpobi85JFEMHv2zAQHaEK&pid=Api&P=0&h=180'
+  ];
+
   const handleAddCourse = () => {
-    if (newCourse.title && newCourse.description && newCourse.image) {
+    if (newCourse.title && newCourse.description) {
+      // Use a random image from the array if no image is provided
+      const courseImage = newCourse.image.trim() === '' 
+        ? imageOptions[Math.floor(Math.random() * imageOptions.length)] 
+        : newCourse.image;
+
       setCourses([
         ...courses,
-        { id: `${courses.length + 1}`, ...newCourse }
+        { id: `${courses.length + 1}`, ...newCourse, image: courseImage }
       ]);
       setNewCourse({ title: '', description: '', image: '' });
       setIsModalOpen(false);
@@ -118,7 +132,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
               />
               <input
                 type="text"
-                placeholder="Image URL"
+                placeholder="Image URL (optional)"
                 value={newCourse.image}
                 onChange={(e) => setNewCourse({ ...newCourse, image: e.target.value })}
                 className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}

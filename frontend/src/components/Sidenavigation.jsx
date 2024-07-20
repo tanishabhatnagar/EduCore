@@ -90,6 +90,41 @@ export function DefaultSidebar({ darkMode }) {
           </ListItem>
         </List>
       </Card>
+
+      <div className={`fixed bottom-0 left-0 w-full ${darkMode ? 'bg-gray-950' : 'bg-gray-100'} shadow-xl border-t z-20 lg:hidden block`}>
+        <List className="flex flex-row justify-around p-2">
+          <ListItem className="flex flex-col items-center">
+            <ListItemPrefix>
+              <PresentationChartBarIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
+            </ListItemPrefix>
+            <Link to="/" className={`${darkMode ? 'text-white' : 'text-black'} text-xs`}>
+              Dashboard
+            </Link>
+          </ListItem>
+          <ListItem className="flex flex-col items-center" onClick={handleProfileClick}>
+            <ListItemPrefix>
+              <UserCircleIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
+            </ListItemPrefix>
+            <span className={`${darkMode ? 'text-white' : 'text-black'} text-xs`}>Profile</span>
+          </ListItem>
+          <ListItem className="flex flex-col items-center">
+            <ListItemPrefix>
+              <Cog6ToothIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
+            </ListItemPrefix>
+            <Link to="/course" className={`${darkMode ? 'text-white' : 'text-black'} text-xs`}>
+              Courses
+            </Link>
+          </ListItem>
+          <ListItem className="flex flex-col items-center">
+            <ListItemPrefix>
+              <ArrowLeftOnRectangleIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
+            </ListItemPrefix>
+            <button onClick={handleLogout} className={`${darkMode ? 'text-white' : 'text-black'} text-xs`}>
+              Logout
+            </button>
+          </ListItem>
+        </List>
+      </div>
     </div>
   );
 }

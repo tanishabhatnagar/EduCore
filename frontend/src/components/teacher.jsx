@@ -1,29 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PlusIcon, BookOpenIcon, XMarkIcon, TrashIcon } from '@heroicons/react/24/solid';
-import { FaSun, FaMoon } from 'react-icons/fa'; // Import icons for light/dark mode toggle
-import { DefaultSidebar } from './Sidenavigation'; 
-import teacherImage from '../assets/Images/teacher.png'; // Import the teacher image
+import { FaSun, FaMoon } from 'react-icons/fa';
+import { DefaultSidebar } from './Sidenavigation';
+import teacherImage from '../assets/Images/teacher.png';
+import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
   const [darkMode, setDarkMode] = useState(true);
-  const [newCourse, setNewCourse] = useState({ title: '', description: '', image: '' });
-  const [courses, setCourses] = useState([
-    {
-      id: '1',
-      title: 'Course 1',
-      description: 'Description for Course 1',
-      image: 'https://images.unsplash.com/photo-1471107191679-f26174d2d41e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3R1ZHl8ZW58MHx8MHx8fDA%3D', // Placeholder image URL
-    },
-    {
-      id: '2',
-      title: 'Course 2',
-      description: 'Description for Course 2',
-      image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c3R1ZHl8ZW58MHx8MHx8fDA%3D', // Placeholder image URL
-    },
-  ]);
+  const [newCourse, setNewCourse] = useState({ title: '', description: '', image: '', price: '' });
+  const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
-  // Array of image URLs
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/auth/allcourses');
+        setCourses(response.data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
+
+    fetchCourses();
+
+    // Check if user information is available in local storage
+    const user = JSON.parse(localStorage.getItem('MyUser'));
+    if (!user || !user.name) {
+      toast.error('User information is not available. Redirecting to login.');
+      navigate('/login'); // Redirect to login if user information is not available
+    }
+  }, [navigate]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewCourse({ ...newCourse, [name]: value });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const user = JSON.parse(localStorage.getItem('MyUser'));
+      if (!user || !user.name) {
+        throw new Error('User information is not available');
+      }
+      const response = await axios.post('http://localhost:4000/auth/addcourse', {
+        ...newCourse,
+        teacher: user.name,
+      });
+
+      setCourses([...courses, response.data]);
+      setNewCourse({ title: '', description: '', image: '', price: '' });
+      setIsModalOpen(false);
+      toast.success('Course added successfully');
+    } catch (error) {
+      console.error('Error adding course:', error);
+      toast.error('Error adding course');
+    }
+  };
+
+  const handleDeleteCourse = async (courseId) => {
+    try {
+      await axios.delete(`http://localhost:4000/auth/deletecourse/${courseId}`);
+      setCourses(courses.filter(course => course._id !== courseId));
+      toast.success('Course deleted successfully');
+    } catch (error) {
+      console.error('Error deleting course:', error);
+      toast.error('Error deleting course');
+    }
+  };
+
+  // Array of image URLs for placeholder images
   const imageOptions = [
     'https://tse2.mm.bing.net/th?id=OIP.MU5piosKJNo7b4haTcq90gHaFj&pid=Api&P=0&h=180',
     'https://tse4.mm.bing.net/th?id=OIP.EPraBsb2WCzsLy3OvIqVXwHaE9&pid=Api&P=0&h=180',
@@ -33,23 +82,18 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
   ];
 
   const handleAddCourse = () => {
-    if (newCourse.title && newCourse.description) {
-      // Use a random image from the array if no image is provided
+    if (newCourse.title && newCourse.description && newCourse.price) {
       const courseImage = newCourse.image.trim() === '' 
         ? imageOptions[Math.floor(Math.random() * imageOptions.length)] 
         : newCourse.image;
 
       setCourses([
         ...courses,
-        { id: `${courses.length + 1}`, ...newCourse, image: courseImage }
+        { _id: `${courses.length + 1}`, ...newCourse, image: courseImage }
       ]);
-      setNewCourse({ title: '', description: '', image: '' });
+      setNewCourse({ title: '', description: '', image: '', price: '' });
       setIsModalOpen(false);
     }
-  };
-
-  const handleDeleteCourse = (courseId) => {
-    setCourses(courses.filter(course => course.id !== courseId));
   };
 
   return (
@@ -59,7 +103,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
             <img
-              src={teacherImage} // Use the imported teacher image
+              src={teacherImage}
               alt="User"
               className="h-24 w-24 rounded-full mr-4"
             />
@@ -84,12 +128,12 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {courses.map(course => (
-            <div key={course.id} className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}>
+            <div key={course._id} className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}>
               <img src={course.image} alt={course.title} className="h-32 w-full object-cover mb-4 rounded-lg" />
               <div className="flex justify-between items-center mb-2">
                 <h2 className="text-xl font-bold">{course.title}</h2>
                 <button
-                  onClick={() => handleDeleteCourse(course.id)}
+                  onClick={() => handleDeleteCourse(course._id)}
                   className="text-red-500"
                 >
                   <TrashIcon className="h-5 w-5" />
@@ -98,7 +142,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
               <p className="mb-4">{course.description}</p>
               <div className="flex items-center">
                 <BookOpenIcon className="mr-2 h-5 w-5" />
-                <span>Added</span>
+                <span>Price: ${course.price}</span>
               </div>
             </div>
           ))}
@@ -116,38 +160,55 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
                   <XMarkIcon className="h-6 w-6" />
                 </button>
               </div>
-              <input
-                type="text"
-                placeholder="Course Title"
-                value={newCourse.title}
-                onChange={(e) => setNewCourse({ ...newCourse, title: e.target.value })}
-                className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
-              />
-              <input
-                type="text"
-                placeholder="Course Description"
-                value={newCourse.description}
-                onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
-                className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
-              />
-              <input
-                type="text"
-                placeholder="Image URL (optional)"
-                value={newCourse.image}
-                onChange={(e) => setNewCourse({ ...newCourse, image: e.target.value })}
-                className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
-              />
-              <button
-                onClick={handleAddCourse}
-                className="bg-blue-500 text-white px-4 py-2 rounded flex items-center justify-center w-full"
-              >
-                <PlusIcon className="mr-2 h-5 w-5" />
-                Add Course
-              </button>
+              <form onSubmit={handleFormSubmit}>
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="Course Title"
+                  value={newCourse.title}
+                  onChange={handleInputChange}
+                  className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
+                  required
+                />
+                <input
+                  type="text"
+                  name="description"
+                  placeholder="Course Description"
+                  value={newCourse.description}
+                  onChange={handleInputChange}
+                  className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
+                  required
+                />
+                <input
+                  type="number"
+                  name="price"
+                  placeholder="Course Price"
+                  value={newCourse.price}
+                  onChange={handleInputChange}
+                  className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
+                  required
+                />
+                <input
+                  type="text"
+                  name="image"
+                  placeholder="Image URL (optional)"
+                  value={newCourse.image}
+                  onChange={handleInputChange}
+                  className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
+                />
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded flex items-center justify-center w-full"
+                >
+                  <PlusIcon className="mr-2 h-5 w-5" />
+                  Add Course
+                </button>
+              </form>
             </div>
           </div>
         )}
       </div>
+      <Toaster />
     </div>
   );
 };

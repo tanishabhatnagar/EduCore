@@ -24,11 +24,24 @@ exports.createCourse = async (req, res) => {
     try {
         const newCourse = await course.save();
         return res.status(201).json({
-            message: "Courses added",
+            message: "Course added",
             status: true,
             newCourse,
-          });
+        });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 };
+
+// Delete a course
+exports.deleteCourse = async (req, res) => {
+    try {
+        const course = await Course.findByIdAndDelete(req.params.id);
+        if (!course) return res.status(404).json({ message: 'Course not found' });
+
+        res.status(200).json({ message: 'Course deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+

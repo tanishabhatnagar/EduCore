@@ -2,17 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { DefaultSidebar } from './Sidenavigation';
 import axios from 'axios';
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { ShoppingCartIcon } from '@heroicons/react/24/solid'; // Import the shopping cart icon
 
 const CoursePage = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [courses, setCourses] = useState([]);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    price: '',
-    teacher: '', // Initially empty
-  });
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -27,35 +24,8 @@ const CoursePage = () => {
     fetchCourses();
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const user = JSON.parse(localStorage.getItem('My User')); // Retrieve user from localStorage
-      const response = await axios.post('http://localhost:4000/auth/addcourse', {
-        ...formData,
-        teacher: user.name, // Set teacher name from localStorage
-      });
-
-      console.log('New course added:', response.data); // Check the data returned from the server
-
-      setCourses([...courses, response.data]);
-      setFormData({
-        title: '',
-        description: '',
-        price: '',
-        teacher: user ? user.name : '', // Reset form with teacher's name
-      });
-
-      toast.success('Course added successfully');
-    } catch (error) {
-      console.error('Error adding course:', error);
-      toast.error('Error adding course');
-    }
+  const handleBuyCourse = (course) => {
+    navigate('/payment', { state: { course } });
   };
 
   return (
@@ -72,43 +42,6 @@ const CoursePage = () => {
               {darkMode ? <FaSun /> : <FaMoon />}
             </button>
           </div>
-          <form onSubmit={handleFormSubmit} className="mb-4">
-            <div className="mb-4">
-              <label className="block mb-2">Title</label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                className="w-full p-2 rounded"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2">Description</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                className="w-full p-2 rounded"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-2">Price</label>
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleInputChange}
-                className="w-full p-2 rounded"
-                required
-              />
-            </div>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-              Add Course
-            </button>
-          </form>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {courses.map((course) => (
               <div key={course._id} className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}>
@@ -117,6 +50,13 @@ const CoursePage = () => {
                 <p className="text-sm mb-1">by {course.teacher || 'Unknown'}</p>
                 <p className="text-sm mb-4">{course.description}</p>
                 <p className="text-sm mb-4">Price: ${course.price}</p>
+                <button
+                  onClick={() => handleBuyCourse(course)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
+                >
+                  <ShoppingCartIcon className="mr-2 h-5 w-5" />
+                  Buy Course
+                </button>
               </div>
             ))}
           </div>

@@ -72,7 +72,7 @@ const PaymentPage = () => {
       <div className="p-6">
         <h2 className="text-xl font-bold mb-4">Payment Summary</h2>
         <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
-          <p className="text-lg">Total Amount: $100.00</p>
+          <p className="text-lg">{course.price}</p>
           <p className="text-lg">{course.title}</p>
         </div>
       </div>

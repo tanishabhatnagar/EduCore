@@ -4,8 +4,8 @@ import logo from '../assets/Images/logo.webp';
 const Footer = ({ darkMode }) => {
   return (
     <footer>
-      <div className={`py-4 ${darkMode ? 'text-gray-400' : 'text-gray-700'}`}>
-        <div className="container px-4 mx-auto">
+      <div className={`py-4  ${darkMode ? 'text-gray-400' : 'text-gray-700' }`}>
+        <div className="container px-4 mx-auto ">
           <div className="-mx-4 flex flex-wrap justify-between">
             <div className="px-4 my-4 w-full xl:w-1/5">
               <a href="/" className="block w-20 h-20 mb-10">
@@ -72,11 +72,11 @@ const Footer = ({ darkMode }) => {
         <div className="container mx-auto px-4">
           <div className="-mx-4 flex flex-wrap justify-between">
             <div className="px-4 w-full text-center sm:w-auto sm:text-left">
-              Copyright © 2020
-              <script>new Date().getFullYear()  2020 && document.write("- " + new Date().getFullYear())</script>- 2022
-              Tailwindow. All Rights Reserved.
+              Copyright © 2024
+              <script>new Date().getFullYear()  2020 && document.write("- " + new Date().getFullYear())</script>- 2025
+              EduCore. All Rights Reserved.
             </div>
-            <div className="px-4 w-full text-center sm:w-auto sm:text-left">
+            <div className="px-4 mb-12 w-full text-center sm:w-auto sm:text-left">
               Made with ❤️ by Tanisha & Abhishek.
             </div>
           </div>

@@ -49,9 +49,9 @@ function Home() {
   }, []);
 
   return (
-    <div className={`flex h-screen ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+    <div className={`flex h-screen ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`} style={{ overflowX: 'hidden' }}>
       <DefaultSidebar darkMode={darkMode} />
-      <div className={`flex-1 relative p-6 overflow-auto lg:ml-[5rem] ml-0 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      <div className={`flex-1 relative p-6 overflow-auto lg:ml-[5rem] ml-0 ${darkMode ? 'bg-gray-900' : 'bg-white'}`} style={{ overflowX: 'hidden' }}>
         {backgroundImg && (
           <div className={`absolute inset-0 ${darkMode ? 'opacity-30' : 'opacity-70'}`}>
             <img

@@ -32,7 +32,7 @@ const Navbar = () => {
             setLoading(true)
             const res = await fetchCourseCategories();
             // const result = await apiConnector("GET", categories.CATEGORIES_API);
-            // const result = await apiConnector('GET', 'http://localhost:4000/api/v1/course/showAllCategories');
+            // const result = await apiConnector('GET', 'https://educore.onrender.com/api/v1/course/showAllCategories');
             // console.log("Printing Sublinks result:", result);
             setSubLinks(res);
         }

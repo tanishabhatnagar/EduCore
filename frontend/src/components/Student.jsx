@@ -38,7 +38,7 @@ const StudentPage = ({ studentName = 'Student Name' }) => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/auth/allcourses');
+        const response = await axios.get('https://educore.onrender.com/auth/allcourses');
         console.log('Fetched courses:', response.data);
         setCourses(response.data);
       } catch (error) {
@@ -50,7 +50,7 @@ const StudentPage = ({ studentName = 'Student Name' }) => {
 
     const fetchMyCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/auth/mycourses');
+        const response = await axios.get('https://educore.onrender.com/auth/mycourses');
         setMyCourses(response.data);
       } catch (error) {
         console.error('Error fetching my courses:', error);

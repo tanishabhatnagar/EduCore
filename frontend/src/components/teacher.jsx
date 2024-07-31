@@ -25,7 +25,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/auth/allcourses');
+        const response = await axios.get('https://educore.onrender.com/auth/allcourses');
         setCourses(response.data);
       } catch (error) {
         console.error('Error fetching courses:', error);
@@ -60,7 +60,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
         if (!user || !user.name) {
           throw new Error('User information is not available');
         }
-        const response = await axios.post('http://localhost:4000/auth/addcourse', {
+        const response = await axios.post('https://educore.onrender.com/auth/addcourse', {
           ...newCourse,
           image: courseImage,
           teacher: user.name,
@@ -81,7 +81,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
 
   const handleDeleteCourse = async (courseId) => {
     try {
-      await axios.delete(`http://localhost:4000/auth/deletecourse/${courseId}`);
+      await axios.delete(`https://educore.onrender.com/auth/deletecourse/${courseId}`);
       setCourses(courses.filter(course => course._id !== courseId));
       toast.success('Course deleted successfully');
     } catch (error) {

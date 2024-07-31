@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, role) => {
     try {
-      const response = await axios.post('http://localhost:4000/login', { email, password, role });
+      const response = await axios.post('https://educore.onrender.com/login', { email, password, role });
       if (response.data.status) {
         setUser(response.data.user);
       } else {
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password, role) => {
     try {
-      const response = await axios.post('http://localhost:4000/register', { name, email, password, role });
+      const response = await axios.post('https://educore.onrender.com/register', { name, email, password, role });
       if (response.data.status) {
         setUser(response.data.user);
       } else {

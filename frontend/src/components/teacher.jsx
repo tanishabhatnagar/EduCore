@@ -5,14 +5,22 @@ import { DefaultSidebar } from './Sidenavigation';
 import teacherImage from '../assets/Images/teacher.png';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
+
+import Img1 from '../assets/Images/random course/pic1.avif';
+import Img2 from '../assets/Images/random course/pic2.avif';
+import Img3 from '../assets/Images/random course/pic3.avif';
+import Img4 from '../assets/Images/random course/pic4.avif';
+import Img5 from '../assets/Images/random course/pic5.avif';
+import Img6 from '../assets/Images/random course/pic6.avif';
+import Img7 from '../assets/Images/random course/pic7.avif';
 
 const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
   const [darkMode, setDarkMode] = useState(true);
   const [newCourse, setNewCourse] = useState({ title: '', description: '', image: '', price: '' });
   const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -26,11 +34,10 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
 
     fetchCourses();
 
-    // Check if user information is available in local storage
     const user = JSON.parse(localStorage.getItem('MyUser'));
     if (!user || !user.name) {
       toast.error('User information is not available. Redirecting to login.');
-      navigate('/login'); // Redirect to login if user information is not available
+      navigate('/login');
     }
   }, [navigate]);
 
@@ -39,25 +46,36 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
     setNewCourse({ ...newCourse, [name]: value });
   };
 
-  const handleFormSubmit = async (e) => {
+  const handleAddCourse = async (e) => {
     e.preventDefault();
-    try {
-      const user = JSON.parse(localStorage.getItem('MyUser'));
-      if (!user || !user.name) {
-        throw new Error('User information is not available');
-      }
-      const response = await axios.post('http://localhost:4000/auth/addcourse', {
-        ...newCourse,
-        teacher: user.name,
-      });
+    if (newCourse.title && newCourse.description && newCourse.price) {
+      const courseImage = newCourse.image.trim() === '' 
+        ? imageOptions[Math.floor(Math.random() * imageOptions.length)] 
+        : newCourse.image;
 
-      setCourses([...courses, response.data]);
-      setNewCourse({ title: '', description: '', image: '', price: '' });
-      setIsModalOpen(false);
-      toast.success('Course added successfully');
-    } catch (error) {
-      console.error('Error adding course:', error);
-      toast.error('Error adding course');
+      console.log('Course Image:', courseImage);
+
+      try {
+        const user = JSON.parse(localStorage.getItem('MyUser'));
+        if (!user || !user.name) {
+          throw new Error('User information is not available');
+        }
+        const response = await axios.post('http://localhost:4000/auth/addcourse', {
+          ...newCourse,
+          image: courseImage,
+          teacher: user.name,
+        });
+
+        setCourses([...courses, response.data.newCourse]);
+        setNewCourse({ title: '', description: '', image: '', price: '' });
+        setIsModalOpen(false);
+        toast.success('Course added successfully');
+      } catch (error) {
+        console.error('Error adding course:', error);
+        toast.error('Error adding course');
+      }
+    } else {
+      toast.error('Please fill in all required fields.');
     }
   };
 
@@ -72,29 +90,15 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
     }
   };
 
-  // Array of image URLs for placeholder images
   const imageOptions = [
-    'https://tse2.mm.bing.net/th?id=OIP.MU5piosKJNo7b4haTcq90gHaFj&pid=Api&P=0&h=180',
-    'https://tse4.mm.bing.net/th?id=OIP.EPraBsb2WCzsLy3OvIqVXwHaE9&pid=Api&P=0&h=180',
-    'https://tse4.mm.bing.net/th?id=OIP.bhmRCm-pRan1kxvTEM-DkQHaEK&pid=Api&P=0&h=180',
-    'https://tse2.mm.bing.net/th?id=OIP.KXGNKFlkiV2tMRgx6CeerQHaE8&pid=Api&P=0&h=180',
-    'https://tse2.mm.bing.net/th?id=OIP.gtVaQrpobi85JFEMHv2zAQHaEK&pid=Api&P=0&h=180'
+    Img1,
+    Img2,
+    Img3,
+    Img4,
+    Img5,
+    Img6,
+    Img7
   ];
-
-  const handleAddCourse = () => {
-    if (newCourse.title && newCourse.description && newCourse.price) {
-      const courseImage = newCourse.image.trim() === '' 
-        ? imageOptions[Math.floor(Math.random() * imageOptions.length)] 
-        : newCourse.image;
-
-      setCourses([
-        ...courses,
-        { _id: `${courses.length + 1}`, ...newCourse, image: courseImage }
-      ]);
-      setNewCourse({ title: '', description: '', image: '', price: '' });
-      setIsModalOpen(false);
-    }
-  };
 
   return (
     <div className={`flex h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
@@ -105,16 +109,18 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
             <img
               src={teacherImage}
               alt="User"
-              className="h-24 w-24 rounded-full mr-4"
+              className="h-30 w-24 rounded-full mr-4"
             />
             <h1 className="text-2xl font-bold">{teacherName}</h1>
           </div>
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="bg-gray-800 text-white px-4 py-2 rounded"
-          >
-            {darkMode ? <FaSun /> : <FaMoon />}
-          </button>
+          <div className="flex items-center space-x-4 md:space-x-0 md:translate-x-0 -translate-x-10">
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="bg-gray-800 text-white px-4 py-2 rounded"
+            >
+              {darkMode ? <FaSun /> : <FaMoon />}
+            </button>
+          </div>
         </div>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">My Courses</h2>
@@ -129,7 +135,12 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {courses.map(course => (
             <div key={course._id} className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}>
-              <img src={course.image} alt={course.title} className="h-32 w-full object-cover mb-4 rounded-lg" />
+              <img 
+                src={course.image || imageOptions[Math.floor(Math.random() * imageOptions.length)]} 
+                alt={course.title} 
+                className="h-32 w-full object-cover mb-4 rounded-lg" 
+                onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/150'; }} 
+              />
               <div className="flex justify-between items-center mb-2">
                 <h2 className="text-xl font-bold">{course.title}</h2>
                 <button
@@ -160,7 +171,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
                   <XMarkIcon className="h-6 w-6" />
                 </button>
               </div>
-              <form onSubmit={handleFormSubmit}>
+              <form onSubmit={handleAddCourse}>
                 <input
                   type="text"
                   name="title"
@@ -187,14 +198,6 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
                   onChange={handleInputChange}
                   className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
                   required
-                />
-                <input
-                  type="text"
-                  name="image"
-                  placeholder="Image URL (optional)"
-                  value={newCourse.image}
-                  onChange={handleInputChange}
-                  className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
                 />
                 <button
                   type="submit"

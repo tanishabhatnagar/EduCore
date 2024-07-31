@@ -12,10 +12,13 @@ import {
   UserCircleIcon,
   Cog6ToothIcon,
   ArrowLeftOnRectangleIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from '@heroicons/react/24/solid';
 
 export function DefaultSidebar({ darkMode }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleProfileClick = () => {
@@ -30,6 +33,10 @@ export function DefaultSidebar({ darkMode }) {
   const handleLogout = () => {
     localStorage.clear(); // Clear all items in localStorage
     navigate('/login'); // Navigate to the login page
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
@@ -91,40 +98,52 @@ export function DefaultSidebar({ darkMode }) {
         </List>
       </Card>
 
-      <div className={`fixed bottom-0 left-0 w-full ${darkMode ? 'bg-gray-950' : 'bg-gray-100'} shadow-xl border-t z-20 lg:hidden block`}>
-        <List className="flex flex-row justify-around p-2">
-          <ListItem className="flex flex-col items-center">
-            <ListItemPrefix>
-              <PresentationChartBarIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
-            </ListItemPrefix>
-            <Link to="/" className={`${darkMode ? 'text-white' : 'text-black'} text-xs`}>
-              Dashboard
-            </Link>
-          </ListItem>
-          <ListItem className="flex flex-col items-center" onClick={handleProfileClick}>
-            <ListItemPrefix>
-              <UserCircleIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
-            </ListItemPrefix>
-            <span className={`${darkMode ? 'text-white' : 'text-black'} text-xs`}>Profile</span>
-          </ListItem>
-          <ListItem className="flex flex-col items-center">
-            <ListItemPrefix>
-              <Cog6ToothIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
-            </ListItemPrefix>
-            <Link to="/course" className={`${darkMode ? 'text-white' : 'text-black'} text-xs`}>
-              Courses
-            </Link>
-          </ListItem>
-          <ListItem className="flex flex-col items-center">
-            <ListItemPrefix>
-              <ArrowLeftOnRectangleIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
-            </ListItemPrefix>
-            <button onClick={handleLogout} className={`${darkMode ? 'text-white' : 'text-black'} text-xs`}>
-              Logout
-            </button>
-          </ListItem>
-        </List>
+      <div className="lg:hidden block fixed top-0 right-0 p-4 z-20">
+        <button onClick={toggleMobileMenu} className="p-2">
+          {isMobileMenuOpen ? (
+            <XMarkIcon className={`h-6 w-6 ${darkMode ? 'text-white' : 'text-gray-800'}`} />
+          ) : (
+            <Bars3Icon className={`h-6 w-6 ${darkMode ? 'text-white' : 'text-gray-800'}`} />
+          )}
+        </button>
       </div>
+
+      {isMobileMenuOpen && (
+        <div className={`fixed top-16 left-0 w-full h-full ${darkMode ? 'bg-gray-950' : 'bg-gray-100'} shadow-xl border-t z-20 lg:hidden block`}>
+          <List className="flex flex-col p-2 space-y-4">
+            <ListItem className="flex items-center">
+              <ListItemPrefix>
+                <PresentationChartBarIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
+              </ListItemPrefix>
+              <Link to="/" className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>
+                Dashboard
+              </Link>
+            </ListItem>
+            <ListItem className="flex items-center" onClick={handleProfileClick}>
+              <ListItemPrefix>
+                <UserCircleIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
+              </ListItemPrefix>
+              <span className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>Profile</span>
+            </ListItem>
+            <ListItem className="flex items-center">
+              <ListItemPrefix>
+                <Cog6ToothIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
+              </ListItemPrefix>
+              <Link to="/course" className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>
+                Courses
+              </Link>
+            </ListItem>
+            <ListItem className="flex items-center">
+              <ListItemPrefix>
+                <ArrowLeftOnRectangleIcon className={`h-6 w-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`} />
+              </ListItemPrefix>
+              <button onClick={handleLogout} className={`${darkMode ? 'text-white' : 'text-black'} ml-2`}>
+                Logout
+              </button>
+            </ListItem>
+          </List>
+        </div>
+      )}
     </div>
   );
 }

@@ -3,18 +3,37 @@ import { FaSun, FaMoon } from 'react-icons/fa';
 import { DefaultSidebar } from './Sidenavigation';
 import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { ShoppingCartIcon } from '@heroicons/react/24/solid'; // Import the shopping cart icon
+import { useNavigate } from 'react-router-dom';
+import { ShoppingCartIcon } from '@heroicons/react/24/solid';
+
+import Img1 from '../assets/Images/random course/pic1.avif';
+import Img2 from '../assets/Images/random course/pic2.avif';
+import Img3 from '../assets/Images/random course/pic3.avif';
+import Img4 from '../assets/Images/random course/pic4.avif';
+import Img5 from '../assets/Images/random course/pic5.avif';
+import Img6 from '../assets/Images/random course/pic6.avif';
+import Img7 from '../assets/Images/random course/pic7.avif';
 
 const CoursePage = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [courses, setCourses] = useState([]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+
+  const imageOptions = [
+    Img1,
+    Img2,
+    Img3,
+    Img4,
+    Img5,
+    Img6,
+    Img7,
+  ];
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const response = await axios.get('http://localhost:4000/auth/allcourses');
+        console.log('Fetched courses:', response.data);
         setCourses(response.data);
       } catch (error) {
         console.error('Error fetching courses:', error);
@@ -37,7 +56,7 @@ const CoursePage = () => {
             <h1 className="text-3xl font-bold">Courses</h1>
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="bg-gray-800 text-white px-4 py-2 rounded"
+              className="bg-gray-800 text-white px-4 py-2 rounded transform md:translate-x-0 -translate-x-10"
             >
               {darkMode ? <FaSun /> : <FaMoon />}
             </button>
@@ -45,7 +64,12 @@ const CoursePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {courses.map((course) => (
               <div key={course._id} className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}>
-                <img src={course.image || 'https://via.placeholder.com/150'} alt={course.title} className="h-32 w-full object-cover mb-4 rounded-lg" />
+                <img 
+                  src={course.image || imageOptions[Math.floor(Math.random() * imageOptions.length)]} 
+                  alt={course.title} 
+                  className="h-32 w-full object-cover mb-4 rounded-lg" 
+                  onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/150'; }} 
+                />
                 <h2 className="text-xl font-bold">{course.title}</h2>
                 <p className="text-sm mb-1">by {course.teacher || 'Unknown'}</p>
                 <p className="text-sm mb-4">{course.description}</p>

@@ -12,12 +12,13 @@ exports.getAllCourses = async (req, res) => {
 
 // Add a new course
 exports.createCourse = async (req, res) => {
-    const { title, description, price, teacher } = req.body;
+    const { title, description, price, image, teacher } = req.body; // Include image field
 
     const course = new Course({
         title,
         description,
         price,
+        image, // Add this field
         teacher
     });
 
@@ -44,4 +45,3 @@ exports.deleteCourse = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
-

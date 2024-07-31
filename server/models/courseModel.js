@@ -1,4 +1,3 @@
-// Course.js
 const mongoose = require('mongoose');
 
 const Course = new mongoose.Schema({
@@ -14,11 +13,14 @@ const Course = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  image: { // Add this field
+    type: String,
+    required: true,
+  },
   teacher: {
     type: String,
     required: true,
   },
-  
 });
 
 module.exports = mongoose.model('Course', Course);

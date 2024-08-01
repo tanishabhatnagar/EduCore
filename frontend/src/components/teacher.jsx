@@ -113,7 +113,17 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
             />
             <h1 className="text-2xl font-bold">{teacherName}</h1>
           </div>
-          <div className="flex items-center space-x-4 md:space-x-0 md:translate-x-0 -translate-x-10">
+        </div>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">My Courses</h2>
+          <div className="flex space-x-2">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
+            >
+              <PlusIcon className="mr-2 h-5 w-5" />
+              Add Course
+            </button>
             <button
               onClick={() => setDarkMode(!darkMode)}
               className="bg-gray-800 text-white px-4 py-2 rounded"
@@ -121,16 +131,6 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
               {darkMode ? <FaSun /> : <FaMoon />}
             </button>
           </div>
-        </div>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">My Courses</h2>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
-          >
-            <PlusIcon className="mr-2 h-5 w-5" />
-            Add Course
-          </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {courses.map(course => (

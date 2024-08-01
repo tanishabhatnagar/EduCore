@@ -18,7 +18,6 @@ import Img5 from '../assets/Images/random course/pic5.avif';
 import Img6 from '../assets/Images/random course/pic6.avif';
 import Img7 from '../assets/Images/random course/pic7.avif';
 
-
 const StudentPage = ({ studentName = 'Student Name' }) => {
   const [darkMode, setDarkMode] = useState(true);
   const [courses, setCourses] = useState([]);
@@ -77,14 +76,16 @@ const StudentPage = ({ studentName = 'Student Name' }) => {
             />
             <h1 className="text-2xl font-bold">{studentName}</h1>
           </div>
-          <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="bg-gray-800 text-white px-4 py-2 rounded transform md:translate-x-0 -translate-x-10"
-            >
-              {darkMode ? <FaSun /> : <FaMoon />}
-            </button>
         </div>
-        <h2 className="text-2xl font-bold mb-4">Available Courses</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">Available Courses</h2>
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="bg-gray-800 text-white px-4 py-2 rounded"
+          >
+            {darkMode ? <FaSun /> : <FaMoon />}
+          </button>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {courses.map(course => (
             <div key={course._id} className={`p-4 rounded shadow ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}>

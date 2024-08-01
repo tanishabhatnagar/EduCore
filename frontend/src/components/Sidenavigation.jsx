@@ -23,7 +23,10 @@ export function DefaultSidebar({ darkMode }) {
 
   const handleProfileClick = () => {
     const userRole = localStorage.getItem('UserRole');
-    if (userRole === 'student') {
+    if (!userRole) {
+      // Redirect to signup if not signed in
+      navigate('/signup');
+    } else if (userRole === 'student') {
       navigate('/student');
     } else if (userRole === 'instructor') {
       navigate('/instructor');

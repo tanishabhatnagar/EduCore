@@ -4,12 +4,35 @@ import { FaSun, FaMoon } from 'react-icons/fa';
 import { Toaster } from 'react-hot-toast';
 import { DefaultSidebar } from './Sidenavigation';
 
+import Img1 from '../assets/Images/random course/pic1.avif';
+import Img2 from '../assets/Images/random course/pic2.avif';
+import Img3 from '../assets/Images/random course/pic3.avif';
+import Img4 from '../assets/Images/random course/pic4.avif';
+import Img5 from '../assets/Images/random course/pic5.avif';
+import Img6 from '../assets/Images/random course/pic6.avif';
+import Img7 from '../assets/Images/random course/pic7.avif';
+
 const CourseDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { course } = location.state || {};
 
   const [darkMode, setDarkMode] = useState(true);
+
+  const imageOptions = [
+    Img1,
+    Img2,
+    Img3,
+    Img4,
+    Img5,
+    Img6,
+    Img7
+  ];
+
+  // Function to get a random image
+  const getRandomImage = () => {
+    return imageOptions[Math.floor(Math.random() * imageOptions.length)];
+  };
 
   if (!course) {
     return <div className="flex justify-center items-center h-screen">Course not found.</div>;
@@ -22,7 +45,7 @@ const CourseDetail = () => {
         <div className={`flex-1 p-4 overflow-auto lg:ml-[5rem] ml-0 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
           <div className="relative w-full h-1/4 mb-4">
             <img
-              src={course.image}
+              src={getRandomImage()} // Use random image if course image is not available
               alt={course.title}
               className="w-full h-full object-cover"
               onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/150'; }} 

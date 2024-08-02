@@ -18,10 +18,11 @@ import Img5 from '../assets/Images/random course/pic5.avif';
 import Img6 from '../assets/Images/random course/pic6.avif';
 import Img7 from '../assets/Images/random course/pic7.avif';
 
-const StudentPage = ({ studentName = 'Student Name' }) => {
+const StudentPage = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [courses, setCourses] = useState([]);
   const [myCourses, setMyCourses] = useState([]);
+  const [studentName, setStudentName] = useState('Student Name'); // Add state for student name
   const navigate = useNavigate();
 
   const imageOptions = [
@@ -35,6 +36,12 @@ const StudentPage = ({ studentName = 'Student Name' }) => {
   ];
 
   useEffect(() => {
+    // Retrieve the student's name from local storage
+    const user = JSON.parse(localStorage.getItem('MyUser'));
+    if (user && user.name) {
+      setStudentName(user.name);
+    }
+
     const fetchCourses = async () => {
       try {
         const response = await axios.get('https://educore.onrender.com/auth/allcourses');
@@ -83,7 +90,7 @@ const StudentPage = ({ studentName = 'Student Name' }) => {
               alt="User"
               className="h-24 w-24 rounded-full mr-4"
             />
-            <h1 className="text-2xl font-bold">{studentName}</h1>
+            <h1 className="text-2xl font-bold">{studentName}</h1> {/* Display the student's name */}
           </div>
         </div>
         <div className="flex justify-between items-center mb-4">

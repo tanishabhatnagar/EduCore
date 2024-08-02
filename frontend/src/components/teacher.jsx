@@ -170,7 +170,7 @@ const TeacherPage = () => {
               <p className="mb-4">{course.description}</p>
               <div className="flex items-center">
                 <BookOpenIcon className="mr-2 h-5 w-5" />
-                <span>Price: ${course.price}</span>
+                <span>Price: ₹{course.price}</span>
               </div>
             </div>
           ))}

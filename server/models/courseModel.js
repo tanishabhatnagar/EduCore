@@ -13,13 +13,17 @@ const Course = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  image: { // Add this field
+  image: {
     type: String,
     required: true,
   },
   teacher: {
     type: String,
     required: true,
+  },
+  information: {
+    type: String,
+    required: true, // Ensure this is marked as false
   },
 });
 

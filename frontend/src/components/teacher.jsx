@@ -15,17 +15,19 @@ import Img5 from '../assets/Images/random course/pic5.avif';
 import Img6 from '../assets/Images/random course/pic6.avif';
 import Img7 from '../assets/Images/random course/pic7.avif';
 
-const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
+const TeacherPage = () => {
   const [darkMode, setDarkMode] = useState(true);
-  const [newCourse, setNewCourse] = useState({ title: '', description: '', image: '', price: '' });
+  const [newCourse, setNewCourse] = useState({ title: '', description: '', image: '', price: '', information: '' });
   const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [teacherName, setTeacherName] = useState('Teacher Name');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const response = await axios.get('https://educore.onrender.com/auth/allcourses');
+        console.log('Fetched courses:', response.data);
         setCourses(response.data);
       } catch (error) {
         console.error('Error fetching courses:', error);
@@ -38,6 +40,8 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
     if (!user || !user.name) {
       toast.error('User information is not available. Redirecting to login.');
       navigate('/login');
+    } else {
+      setTeacherName(user.name);
     }
   }, [navigate]);
 
@@ -52,9 +56,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
       const courseImage = newCourse.image.trim() === '' 
         ? imageOptions[Math.floor(Math.random() * imageOptions.length)] 
         : newCourse.image;
-
-      console.log('Course Image:', courseImage);
-
+  
       try {
         const user = JSON.parse(localStorage.getItem('MyUser'));
         if (!user || !user.name) {
@@ -65,9 +67,11 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
           image: courseImage,
           teacher: user.name,
         });
-
+  
+        console.log('Response from server:', response.data);
+  
         setCourses([...courses, response.data.newCourse]);
-        setNewCourse({ title: '', description: '', image: '', price: '' });
+        setNewCourse({ title: '', description: '', image: '', price: '', information: '' });
         setIsModalOpen(false);
         toast.success('Course added successfully');
       } catch (error) {
@@ -78,6 +82,7 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
       toast.error('Please fill in all required fields.');
     }
   };
+  
 
   const handleDeleteCourse = async (courseId) => {
     try {
@@ -88,6 +93,11 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
       console.error('Error deleting course:', error);
       toast.error('Error deleting course');
     }
+  };
+
+  const handleCourseClick = (course) => {
+    console.log('Navigating to course:', course); // Log course details
+    navigate(`/course/${course._id}`, { state: { course } });
   };
 
   const imageOptions = [
@@ -134,7 +144,11 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {courses.map(course => (
-            <div key={course._id} className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}>
+            <div 
+              key={course._id} 
+              className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}
+              onClick={() => handleCourseClick(course)}
+            >
               <img 
                 src={course.image || imageOptions[Math.floor(Math.random() * imageOptions.length)]} 
                 alt={course.title} 
@@ -144,7 +158,10 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
               <div className="flex justify-between items-center mb-2">
                 <h2 className="text-xl font-bold">{course.title}</h2>
                 <button
-                  onClick={() => handleDeleteCourse(course._id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteCourse(course._id);
+                  }}
                   className="text-red-500"
                 >
                   <TrashIcon className="h-5 w-5" />
@@ -198,6 +215,14 @@ const TeacherPage = ({ teacherName = 'Teacher Name' }) => {
                   onChange={handleInputChange}
                   className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
                   required
+                />
+                <input
+                  type="text"
+                  name="information"
+                  placeholder="Course Information"
+                  value={newCourse.information}
+                  onChange={handleInputChange}
+                  className={`p-2 rounded mb-4 w-full ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-black'}`}
                 />
                 <button
                   type="submit"

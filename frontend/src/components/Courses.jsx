@@ -43,8 +43,9 @@ const CoursePage = () => {
     fetchCourses();
   }, []);
 
-  const handleBuyCourse = (course) => {
-    navigate('/payment', { state: { course } });
+  const handleCourseClick = (course) => {
+    console.log(`Navigating to course: ${course._id}`); // Debugging
+    navigate(`/course/${course._id}`, { state: { course } });
   };
 
   return (
@@ -63,7 +64,11 @@ const CoursePage = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {courses.map((course) => (
-              <div key={course._id} className={`p-4 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}>
+              <div
+                key={course._id}
+                className={`p-4 rounded-lg shadow-lg cursor-pointer ${darkMode ? 'bg-gray-800 text-white' : 'bg-gray-200 text-black'}`}
+                onClick={() => handleCourseClick(course)}
+              >
                 <img 
                   src={course.image || imageOptions[Math.floor(Math.random() * imageOptions.length)]} 
                   alt={course.title} 
@@ -75,7 +80,10 @@ const CoursePage = () => {
                 <p className="text-sm mb-4">{course.description}</p>
                 <p className="text-sm mb-4">Price: ${course.price}</p>
                 <button
-                  onClick={() => handleBuyCourse(course)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent the event from propagating to the parent div
+                    handleCourseClick(course);
+                  }}
                   className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
                 >
                   <ShoppingCartIcon className="mr-2 h-5 w-5" />

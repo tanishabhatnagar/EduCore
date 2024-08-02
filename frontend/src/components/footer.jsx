@@ -70,15 +70,13 @@ const Footer = ({ darkMode }) => {
       </div>
       <div className={`py-4 ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-200 text-gray-700'}`}>
         <div className="container mx-auto px-4">
-          <div className="-mx-4 flex flex-wrap justify-between">
+          <div className="-mx-4 flex flex-wrap justify-between text-center">
             <div className="px-4 w-full text-center sm:w-auto sm:text-left">
               Copyright © 2024
               <script>new Date().getFullYear()  2020 && document.write("- " + new Date().getFullYear())</script>- 2025
               EduCore. All Rights Reserved.
             </div>
-            <div className="px-4 mb-12 w-full text-center sm:w-auto sm:text-left">
-              Made with ❤️ by Tanisha & Abhishek.
-            </div>
+            
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ import StudentPage from './components/Student';
 import PaymentPage from './components/Payment';
 import TeacherPage from './components/teacher';
 import CoursePage from './components/Courses';
+import CourseDetailPage from './components/Coursedetail';
 
 import { AuthProvider } from './components/useAuth';
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/payment" element={ <PaymentPage/>} />
         <Route path="/instructor" element={ <TeacherPage/>} />
         <Route path="/course" element={ <CoursePage/>} />
+        <Route path="/course/:id" element={<CourseDetailPage/>} />
         
       </Routes>
     </Router>

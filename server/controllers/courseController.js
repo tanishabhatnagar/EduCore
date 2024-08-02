@@ -3,7 +3,7 @@ const Course = require('../models/courseModel');
 // Get all courses
 exports.getAllCourses = async (req, res) => {
     try {
-        const courses = await Course.find().populate('teacher', 'name email'); // Populating teacher details
+        const courses = await Course.find(); // Ensure all fields are returned
         res.status(200).json(courses);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -12,14 +12,15 @@ exports.getAllCourses = async (req, res) => {
 
 // Add a new course
 exports.createCourse = async (req, res) => {
-    const { title, description, price, image, teacher } = req.body; // Include image field
+    const { title, description, price, image, teacher, information } = req.body;
 
     const course = new Course({
         title,
         description,
         price,
-        image, // Add this field
-        teacher
+        image,
+        teacher,
+        information // Make sure to include this field
     });
 
     try {

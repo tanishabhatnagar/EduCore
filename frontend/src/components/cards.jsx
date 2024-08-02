@@ -8,8 +8,29 @@ import {
   Button,
 } from '@material-tailwind/react';
 import Slider from 'react-slick';
+import { motion } from 'framer-motion';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
+// Motion variants for fade in from left and right
+const fadeIn = (direction = 'up', delay = 0) => {
+  return {
+    hidden: {
+      opacity: 0,
+      x: direction === 'left' ? -50 : direction === 'right' ? 50 : 0,
+      y: direction === 'up' ? 50 : 0,
+    },
+    show: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay,
+      },
+    },
+  };
+};
 
 const cardsData = [
   {
@@ -79,13 +100,21 @@ export function CardDefault({ darkMode }) {
     <div className={`w-full p-6 mt-10 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
       <div className="block md:hidden">
         {cardsData.map((card, index) => (
-          <div key={index} className="mb-6">
+          <motion.div
+            key={index}
+            className="mb-6"
+            initial="hidden"
+            whileInView="show"
+            variants={fadeIn(index % 2 === 0 ? 'left' : 'right', 0.1)}
+            viewport={{ once: true, amount: 0.2 }}
+          >
             <Card className={`w-full ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
               <CardHeader color="blue-gray" className="relative h-56">
                 <img
                   src={card.imgSrc}
                   alt="card-image"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </CardHeader>
               <CardBody>
@@ -100,7 +129,7 @@ export function CardDefault({ darkMode }) {
                 <Button className="bg-blue-600 hover:bg-blue-700">Read More</Button>
               </CardFooter>
             </Card>
-          </div>
+          </motion.div>
         ))}
       </div>
       <div className="hidden md:block">
@@ -113,6 +142,7 @@ export function CardDefault({ darkMode }) {
                     src={card.imgSrc}
                     alt="card-image"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </CardHeader>
                 <CardBody>

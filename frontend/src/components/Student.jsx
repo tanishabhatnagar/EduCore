@@ -8,7 +8,7 @@ import { DefaultSidebar } from './Sidenavigation';
 import studentImage from '../assets/Images/student.avif';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import axios from 'axios';
-import { Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 
 import Img1 from '../assets/Images/random course/pic1.avif';
 import Img2 from '../assets/Images/random course/pic2.avif';
@@ -59,8 +59,17 @@ const StudentPage = ({ studentName = 'Student Name' }) => {
     fetchMyCourses();
   }, []);
 
-  const handleBuyCourse = (course) => {
-    navigate('/payment', { state: { course } });
+  const handleEnrollCourse = (course) => {
+    if (window.confirm(`Do you want to enroll in the course "${course.title}"?`)) {
+      // Simulate enrolling in a course
+      if (!myCourses.some(c => c._id === course._id)) {
+        setMyCourses([...myCourses, course]);
+        toast.success(`Successfully enrolled in "${course.title}"!`);
+        // Add logic to enroll in the course in backend here, if necessary
+      } else {
+        toast.error(`You are already enrolled in "${course.title}".`);
+      }
+    }
   };
 
   return (
@@ -99,11 +108,11 @@ const StudentPage = ({ studentName = 'Student Name' }) => {
               <p className="mb-4">{course.description}</p>
               <p className="mb-4">Price: ₹{course.price}</p>
               <button
-                onClick={() => handleBuyCourse(course)}
+                onClick={() => handleEnrollCourse(course)}
                 className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
               >
                 <ShoppingCartIcon className="mr-2 h-5 w-5" />
-                Buy Course
+                Enroll Course
               </button>
             </div>
           ))}

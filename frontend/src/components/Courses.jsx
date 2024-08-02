@@ -70,7 +70,7 @@ const CoursePage = () => {
                 onClick={() => handleCourseClick(course)}
               >
                 <img 
-                  src={course.image || imageOptions[Math.floor(Math.random() * imageOptions.length)]} 
+                  src={imageOptions[Math.floor(Math.random() * imageOptions.length)]} 
                   alt={course.title} 
                   className="h-32 w-full object-cover mb-4 rounded-lg" 
                   onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/150'; }} 
